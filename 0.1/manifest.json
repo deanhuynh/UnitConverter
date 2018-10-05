@@ -1,0 +1,19 @@
+{
+   "content_scripts": [ {
+      //"css": [ "csshake-little.css" ],
+      "js": [ "content_script.js" ],
+      "matches": [ "*://*/*" ],
+      "run_at": "document_end"
+   } ],
+   "description": "Converts units in page automatically",
+   //"key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjkFw0xFd3byThIWU42rzgwhIvf7GYNzbK1TQiOCon0reSfFuWM2act/uQoj38gSVN6LY9EryWncw2oVP2fxRvfW5+yWJaseBlE4SWSP0vmgRmlRAOjzKQfOu8tONCX+FjlcdIm0V23t8uSkvjY9QYck4VEJxsJMtEG+/w8Kghw/XigCwWXjosCNTMjm3pxGYLSiRtnYDCXCFFvLuxo/F+6btdz+ROykfgCj45uaMER4Yf8IIN8tR9niNfrbIl7iIykscNZPy0gAheRKq3J6ljzZckSWRA6AQgS2axpvGgqltNwIVQT6RNuh+bPZhYKUxze8ErE89jdl0MoIh7l6/ZQIDAQAB",
+   "manifest_version": 2,
+   "name": "UnitConvert",
+   //"update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.1.1",
+   "browser_action": {
+      "default_icon": "convert.png",
+      "default_title": "UnitConvert!",
+      "default_popup": "popup.html"
+   }
+}
