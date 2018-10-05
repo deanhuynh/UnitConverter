@@ -6,10 +6,11 @@
    } ],
    "description": "Converts units in page automatically",
    "manifest_version": 2,
-   "name": "UnitConvert",
+   "name": "EasyConvert",
    "version": "1.1.1",
    "browser_action": {
       "default_icon": "convert.png",
-      "default_title": "UnitConvert!"
+      "default_title": "EasyConvert!",
+      "default_popup": "popup.html"
    }
 }

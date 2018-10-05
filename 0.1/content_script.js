@@ -55,8 +55,9 @@ function walk(node) {
 
 function handleText(textNode) {
 	var conversionList = [[/(?:\d+\skilometers|\d+\skilometer|\d+\skm)/gi, .621371, " miles"],
-						  [/(?:\d+\scelcius|\d+\sc\s*\.*)/gi, -1, " F"],
-						  [/(?:\d+\smeters|\d+\smeter|\d+\sm(?![a-zA-Z]))/gi, 3.28084, " feet"]]
+						  [/(?:\d+\scelsius|\d+\s*c(?![a-zA-Z]))/gi, -1, " F"],
+						  [/(?:\d+\smeters|\d+\smeter|\d+\sm(?![a-zA-Z]))/gi, 3.28084, " feet"],
+						  [/(?:\d+\skilograms|\d+\skilogram|\d+\skg)/gi, 2.20462, " pounds"]]
 
 	var v = textNode.nodeValue;
 	v = convertUnits(conversionList, v);
