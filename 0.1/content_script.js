@@ -54,13 +54,15 @@ function walk(node) {
 
 
 function handleText(textNode) {
-	var conversionList = [[/(?:\d+\skilometers|\d+\skilometer|\d+\skm)/gi, .621371, " miles"],
+	var conversionList = [[/(?:\d+(?:,\d+)*\skilometers?|\d+(?:,\d+)*\skilometres?|\d+(?:,\d{3})*\skm)/gi, .621371, " miles"],
 						  [/(?:\d+\scelsius|\d+\s*c(?![a-zA-Z]))/gi, -1, " F"],
 						  [/(?:\d+\smeters|\d+\smeter|\d+\sm(?![a-zA-Z]))/gi, 3.28084, " feet"],
 						  [/(?:\d+\skilograms|\d+\skilogram|\d+\skg)/gi, 2.20462, " pounds"]]
 
 	var v = textNode.nodeValue;
 	v = convertUnits(conversionList, v);
+
+	//\d+(,\d+)*
 
 	// var v = textNode.nodeValue;
 	// var re = /(?:\d+\skilometers*|\d+\skm)/gi;
@@ -106,12 +108,15 @@ function convertUnits(reList, v) {
 		if (reList[i][1] == -1) { // Celsius to Farenheit
 			while (word = reList[i][0].exec(v)) {
 				var digit = /\d+/;
+				word = word.toString().replace(/,/g, '');
 				v = v.replace(word, Math.round(digit.exec(word) * 10 * 9 / 5)/ 10 + 32 + reList[i][2]);
 			}
 		} else {
 			while (word = reList[i][0].exec(v)) {
+				word = word[0];
 				var digit = /\d+/;
-				v = v.replace(word, Math.round(digit.exec(word) * reList[i][1] * 10)/10 + reList[i][2]);
+				var commalessNum = word.replace(/,/g, '');
+				v = v.replace(word, Math.round(digit.exec(commalessNum) * reList[i][1] * 10)/10 + reList[i][2]);
 				//v = v.replace(word, Math.round(1.1) + " miles");
 			}
 		}
