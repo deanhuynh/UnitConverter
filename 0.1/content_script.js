@@ -19,8 +19,7 @@ var targetNode = document.body;
 observer.observe(targetNode, observerConfig);
 
 
-function walk(node) 
-{
+function walk(node) {
 	var ignore = { "STYLE":0, "SCRIPT":0, "NOSCRIPT":0, "IFRAME":0, "OBJECT":0 }
 	// I stole this function from here:
 	// http://is.gd/mwZp7E
@@ -54,21 +53,24 @@ function walk(node)
 
 
 
-function handleText(textNode) 
-{
-	var conversionList = [[/(?:\d+\skilometers|\d+\skilometer|\d+\skm)/gi, 6.21371],
-						  [/(?:\d+\scelcius|\d+\sc\s*\.*)/gi, -1],
-						  [/(?:\d+\smeters|\d+\s|\d+\skm)/gi, 6.21371]]
+function handleText(textNode) {
+	var conversionList = [[/(?:\d+\skilometers|\d+\skilometer|\d+\skm)/gi, .621371, " miles"],
+						  [/(?:\d+\scelcius|\d+\sc\s*\.*)/gi, -1, " F"],
+						  [/(?:\d+\smeters|\d+\smeter|\d+\sm(?![a-zA-Z]))/gi, 3.28084, " feet"]]
+
 	var v = textNode.nodeValue;
-	var re = /(?:\d+\skilometers*|\d+\skm)/gi;
-	var word;
+	v = convertUnits(conversionList, v);
 
-	while (word = re.exec(v)) {
-		var digit = /\d+/;
-		v = v.replace(word, Math.round(digit.exec(word) * 6.21371)/10 + " miles");
-		//v = v.replace(word, Math.round(1.1) + " miles");
+	// var v = textNode.nodeValue;
+	// var re = /(?:\d+\skilometers*|\d+\skm)/gi;
+	// var word;
 
-	}
+	// while (word = re.exec(v)) {
+	// 	var digit = /\d+/;
+	// 	v = v.replace(word, Math.round(digit.exec(word) * 6.21371)/10 + " miles");
+	// 	//v = v.replace(word, Math.round(1.1) + " miles");
+
+	// }
 
 	//function convert(reList)
 
@@ -94,6 +96,26 @@ function handleText(textNode)
 	// v = v.replace(/\!+/g, " "+ faces[Math.floor(Math.random()*faces.length)]+ " ");
 	
 	textNode.nodeValue = v;
+}
+
+// Takes an array of triples [regex, ratio, unit name] and a String
+function convertUnits(reList, v) {
+	for (var i = 0; i < reList.length; i++) {
+		var word;
+		if (reList[i][1] == -1) { // Celsius to Farenheit
+			while (word = reList[i][0].exec(v)) {
+				var digit = /\d+/;
+				v = v.replace(word, Math.round(digit.exec(word) * 10 * 9 / 5)/ 10 + 32 + reList[i][2]);
+			}
+		} else {
+			while (word = reList[i][0].exec(v)) {
+				var digit = /\d+/;
+				v = v.replace(word, Math.round(digit.exec(word) * reList[i][1] * 10)/10 + reList[i][2]);
+				//v = v.replace(word, Math.round(1.1) + " miles");
+			}
+		}
+	}
+	return v;
 }
 
 
